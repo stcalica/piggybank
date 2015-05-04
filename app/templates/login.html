@@ -1,0 +1,12 @@
+{% extends "template.html" %}
+{% block content %}
+ <h1> login </h1>
+ <form action="" method="POST" name="login">
+	{{ form.hidden_tag() }}
+	<p>
+		Enter OpenID: {{form.openid(size=80)}}
+	</p>
+	<p> {{form.remember_me}} Remember me </p>
+	<p><input type="submit" value="Sign In"></p>
+ </form>
+{% endblock %}
