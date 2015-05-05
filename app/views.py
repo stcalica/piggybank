@@ -16,7 +16,6 @@ def login():
 	form = LoginForm()
 	if(request.method == 'POST'):
 		if form.validate_submit():
-			form.validate_on_submit():
 			flash('Login requested for OpenID="%s", remember_me=%s' %
 				  (form.openid.data, str(form.remember_me.data)))
 			return redirect('/index')
