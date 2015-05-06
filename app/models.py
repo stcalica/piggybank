@@ -9,15 +9,16 @@ One user can own Multiple piggybanks
 But One piggybank can only be owned by One user and linked to One product
 """
 class User(db.Model):
+	__tablename__ = 'users'
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(64), index=True, unique=True)
 	email = db.Column(db.String(120), index=True, unique=True)
 	piggybank_id = db.Column(Integer, ForeignKey('piggybank.id')) #one to many
-	piggybank  = relationship("Piggybank", backref="user")
 	def __repr__(self):
 		return '<User %r>' % (self.username)
 		
 class Piggybank(db.Model):
+	__tablename__ = 'piggybank'
 	id = db.Column(db.Integer, primary_key=True)
 	cost = db.Column(db.Integer)
 	amt_paid = db.Column(db.Integer)
@@ -27,12 +28,13 @@ class Piggybank(db.Model):
 	last_payment = db.Column(db.Integer) #datatime?
 	first_payment = db.Column(db.Integer) #datatime?
 	name = db.Column(db.String(64), index=True, unique=True)
-	product = db.Column(Integer, ForeignKey("product.id"))
+	product_id = db.Column(Integer, ForeignKey("product.id"))
 	owned_by_id = db.Column(Integer, ForeignKey("user.id"))
 	def __repr__(self):
 		return '<User %r>' % (self.name)
 		
 class Product(db.Model):
+	__tablename__ = 'product'
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(30))
 	description = db.Column(db.String(100)) #may need to increase

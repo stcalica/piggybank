@@ -1,4 +1,14 @@
 {% extends "template.html" %}
 {% block content %}
- <p> block </p>
+<div class="container"> 		  
+	{% for product in products %}
+		<div class="row">
+			<h1>{{ product }}</h1> 	
+		</div>
+	{% endfor %}
+
+ 
+ 
+ 
+</div>
 {% endblock %}

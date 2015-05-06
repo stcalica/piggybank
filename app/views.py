@@ -1,6 +1,7 @@
 from flask import render_template, request, g
 from forms import LoginForm
-from app import app
+from models import *
+from app import app, db
 
 #g stores data during the life of a request 
 # can store things to sessions using session['a']
@@ -8,7 +9,13 @@ from app import app
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello, World!"
+	products = db.engine.execute(
+	""" 
+	SELECT *
+	FROM products
+	""")
+	
+	return render_template('index.html')
 	
 	
 @app.route('/login', methods=['GET', 'POST'])
