@@ -1,6 +1,6 @@
-from flask import render_template, request, g
+from flask import render_template, request, g, flash, redirect , url_for
 from forms import LoginForm, SignUpForm
-from models import *
+from models import User, Product, Piggybank
 from app import app, db
 
 #g stores data during the life of a request 
@@ -20,23 +20,22 @@ def index():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
 	form = SignUpForm(request.form)
-	print(form.validate())
 	if(request.method == 'POST' and form.validate()):
+			print(form.data)
+			print(form.data['name'])
+			print(form.data['email'])
+			new_user = User(username=form.data['name'], email=form.data['email'])
 			flash('Signed Up %s ' %
 				  (form.name.data))
-			user = user(name, email)
-			db.session.add(user)
+			db.session.add(new_user)
+			db.session.commit()
 			# db.engine.execute(""" 
 			# UPDATE user()
 			# """,(new_user.name, new_user.email,))
 			# print(new_user.name, new_user.email)
-			return redirect(url_for('/index'))
+			return render_template('index.html')
 	return render_template('signup.html', title='Sign Up', form=form)
-	# user = User(form.username.data, form.email.data,
-                    # form.password.data)
-        # db_session.add(user)
-        # flash('Thanks for registering')
-        # return redirect(url_for('login'))
+
 	
 @app.route('/login', methods=['GET', 'POST'])
 def login():
