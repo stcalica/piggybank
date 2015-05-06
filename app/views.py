@@ -16,14 +16,11 @@ def index():
 	""")
 	
 	return render_template('index.html')
-	
+#do form validation inside here no callback, before submitting user to database
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
 	form = SignUpForm(request.form)
-	if(request.method == 'POST' and form.validate()):
-			print(form.data)
-			print(form.data['name'])
-			print(form.data['email'])
+	if(request.method == 'POST' and form.validate_on_submit()):
 			new_user = User(username=form.data['name'], email=form.data['email'])
 			flash('Signed Up %s ' %
 				  (form.name.data))
@@ -31,12 +28,13 @@ def signup():
 			db.session.commit()
 			# db.engine.execute(""" 
 			# UPDATE user()
-			# """,(new_user.name, new_user.email,))
+			# """,(new_user.name, new_user.email,)).commit()
 			# print(new_user.name, new_user.email)
-			return render_template('index.html')
+			return redirect(url_for('/'))
 	return render_template('signup.html', title='Sign Up', form=form)
 
-	
+#worry about later
+#https://exploreflask.com/users.html
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	form = LoginForm()
@@ -47,9 +45,11 @@ def login():
 			return redirect('/index')
 	return render_template('login.html', title='Sign In', form=form)
 	
+#explore after login is done 
 #sign in for only users that are stores 
-@app.route('/add_product')
+@app.route('/add')
 def add_product():
 	return render_template('add_product.html', title='Add Product')
+	
 
 
